@@ -17,7 +17,6 @@ The project is structured into chapters, each representing a distinct iteration 
 
 The following diagrams illustrate the incremental evolution of the agent framework's architecture.
 
-````carousel
 ### Chapter 1: The Inception
 ```mermaid
 graph TD
@@ -71,7 +70,6 @@ graph TD
         ResultType[Result Type]
     end
 ```
-````
 
 ## Architecture & Core Patterns
 
