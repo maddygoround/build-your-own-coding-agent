@@ -8,11 +8,14 @@ The final objective was to establish a pattern where adding new capabilities is 
 ## Mature Architecture
 The project is now divided into clear layers:
 
-### 1. The Core Agent (`agent.ts`)
-The `Agent` class is now completely tool-agnostic. It handles:
-- **Conversation State**: Managing the message history.
-- **Inference**: Calling the Anthropic API.
-- **Tool Dispatch**: Orchestrating the execution of tool calls and feeding results back into the model loop.
+### 1. The Core Agent
+The `Agent` class is now completely tool-agnostic. It handles conversation state, inference, and tool dispatching.
+
+- **[agent.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter4/agent.ts)**: A fully abstracted, tool-agnostic agent class.
+- **[types.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter4/types.ts)**: Shared interfaces for tool definitions and logging.
+- **[index.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter4/index.ts)**: The clean entry point that wires the agent and tools together.
+- **[tools/](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter4/tools/)**: Normalized tool implementations (`read_file.ts` and `list_files.ts`).
+- **[utils.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/utils.ts)**: Core utilities for Go-style error handling (`wrapErr`).
 
 ### 2. Standardization (`types.ts`)
 Shared interfaces ensure that all tools and loggers speak the same language. This eliminates runtime errors caused by mismatched tool signatures.
@@ -46,7 +49,5 @@ graph TD
 
 ## How to Run
 ```bash
-bun run src/chapter4/index.ts --verbose
+bun run chapter4/index.ts --verbose
 ```
-# code-agent-workshop
-# code-agent-workshop

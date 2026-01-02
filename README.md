@@ -8,10 +8,10 @@ The project is structured into chapters, each representing a distinct iteration 
 
 ### Chapters
 
-- **[Chapter 1: The Inception](./src/chapter1)**: Building the basic message loop and CLI interface.
-- **[Chapter 2: Empowerment](./src/chapter2)**: Introducing tool integration with the `read_file` capability.
-- **[Chapter 3: Refinement](./src/chapter3)**: Refactoring into an abstracted Agent class and adding the recursive `list_files` tool.
-- **[Chapter 4: The Framework](./src/chapter4)**: A mature, modular architecture with standardized patterns and extensibility.
+- **[Chapter 1: The Inception](./chapter1)**: Building the basic message loop and CLI interface.
+- **[Chapter 2: Empowerment](./chapter2)**: Introducing tool integration with the `read_file` capability.
+- **[Chapter 3: Refinement](./chapter3)**: Refactoring into an abstracted Agent class and adding the recursive `list_files` tool.
+- **[Chapter 4: The Framework](./chapter4)**: A mature, modular architecture with standardized patterns and extensibility.
 
 ## Evolutionary Overview
 
@@ -27,7 +27,7 @@ graph TD
     Agent -- "History.push" --> History[(Message History)]
     History -- "Context" --> Agent
 ```
-<!-- slide -->
+
 ### Chapter 2: Empowerment
 ```mermaid
 graph TD
@@ -40,7 +40,7 @@ graph TD
     Agent -- "Request (with Result)" --> API
     ToolDecision -- "No" --> User
 ```
-<!-- slide -->
+
 ### Chapter 3: Refinement
 ```mermaid
 graph TD
@@ -53,7 +53,7 @@ graph TD
     Tools -- "Result" --> AgentClass
     AgentClass -- "Display" --> User
 ```
-<!-- slide -->
+
 ### Chapter 4: The Framework
 ```mermaid
 graph TD
@@ -76,7 +76,7 @@ graph TD
 ### Go-Style Error Handling
 A central theme in this project (specifically from Chapter 4 onwards) is the adoption of a **Go-style error handling pattern**. This approach avoids the cognitive overhead and "pyramid of doom" often associated with `try-catch` blocks.
 
-Located in `src/utils.ts`, the `wrapErr` utility ensures that asynchronous operations return a standardized tuple:
+The `wrapErr` utility ensures that asynchronous operations return a standardized tuple:
 
 ```typescript
 type Result<T> = Promise<[Error, undefined] | [undefined, T]>;
@@ -92,7 +92,6 @@ type Result<T> = Promise<[Error, undefined] | [undefined, T]>;
 - **[Anthropic SDK](https://github.com/anthropics/anthropic-sdk-typescript)**: Powers the inference loop and message handling.
 - **[Commander](https://github.com/tj/commander.js)**: Provides the CLI argument parsing.
 - **[Zod](https://zod.dev)**: Used for data validation and generating JSON schemas for tools.
-- **[Zod to JSON Schema](https://github.com/StefanNieke/zod-to-json-schema)**: Bridges the gap between TypeScript definitions and the LLM's required tool format.
 
 ## Getting Started
 
@@ -106,5 +105,5 @@ type Result<T> = Promise<[Error, undefined] | [undefined, T]>;
    ```
 3. **Run Implementation**:
    ```bash
-   bun run src/chapter4/index.ts --verbose
+   bun run chapter4/index.ts --verbose
    ```

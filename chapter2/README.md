@@ -8,6 +8,9 @@ A chat agent is limited by its training data. To be useful in a development cont
 ## Evolution of the Loop
 In this iteration, the agent's architecture begins to shift. We introduce a mechanism for the model to signal that it wants to perform an action.
 
+- **[index.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter2/index.ts)**: The primary entry point. While similar to Chapter 1, it lays the groundwork for tool-aware prompting.
+- **[tools/read.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter2/tools/read.ts)**: A self-contained execution script that demonstrates a specific tool implementation for reading files.
+
 ### Tool Definition & Schemas
 We started using **Zod** to define the expected input for each tool. This allows us to:
 1. Validate the model's output before execution.
@@ -37,5 +40,5 @@ graph TD
 
 ## How to Run
 ```bash
-bun run src/chapter2/tools/read.ts --verbose
+bun run chapter2/tools/read.ts --verbose
 ```

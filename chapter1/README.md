@@ -9,11 +9,13 @@ The objective was to create a basic CLI application that could maintain a statef
 At this stage, we deliberately chose a set of low-level but powerful libraries to build our foundation:
 
 - **Commander**: Used to provide a professional CLI experience with flag support (e.g., `--verbose`).
-- **Readline**: Facilitated the interactive loop, allowing the agent to wait for user input on the command line.
+- **Readline**: Facilitated the interactive loop, allowing the agent to capture user prompts sequentially.
 - **Anthropic SDK**: The heart of the implementation, managing the API calls to `claude-3-5-haiku-latest`.
 
 ## Architecture
 The agent in this chapter is **monolithic**. Everything from input handling to API management resides within a single file. 
+
+- **[index.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter1/index.ts)**: Contains the entire agent implementation.
 
 ### The Message Loop
 1. **Prompt**: Wait for user input.
@@ -35,5 +37,5 @@ graph TD
 
 ## How to Run
 ```bash
-bun run src/chapter1/index.ts --verbose
+bun run chapter1/index.ts --verbose
 ```

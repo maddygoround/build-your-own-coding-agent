@@ -8,6 +8,9 @@ The objective was to decouple the agent's core "reasoning engine" (the loop and 
 ## Architectural Shift
 We introduced an abstracted `Agent` class. This allows us to instantiate multiple agents with different sets of tools or logging configurations without duplicating code.
 
+- **[index.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter3/index.ts)**: Demonstrates the "monolithic-agent" pattern but with cleaner internal logic.
+- **[tools/list_files.ts](file:///Users/m.rathod/Documents/Projects/code-agent-ts/chapter3/tools/list_files.ts)**: A self-contained script demonstrating a recursive directory listing tool.
+
 ### Recursive Discovery: The `list_files` Tool
 To demonstrate the power of more complex tools, we implemented `list_files`. Unlike a simple read command, this tool explores the project structure recursively.
 
@@ -36,5 +39,5 @@ graph TD
 
 ## How to Run
 ```bash
-bun run src/chapter3/tools/list_files.ts --verbose
+bun run chapter3/tools/list_files.ts --verbose
 ```
