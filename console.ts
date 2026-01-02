@@ -3,28 +3,32 @@
  * Separate from logging - this is for user-facing chat output.
  */
 
-const colors = {
-    blue: "\x1b[94m",
-    green: "\x1b[92m",
-    reset: "\x1b[0m",
-};
+import pc from "picocolors";
+import boxen from "boxen";
+import logSymbols from "log-symbols";
 
 let claudeTurnStarted = false;
 
 export const console_out = {
     /**
-     * Print the welcome banner
+     * Print the welcome banner in a styled box
      */
     banner(message: string): void {
-        console.log(message);
+        console.log(
+            boxen(pc.bold(message), {
+                padding: { top: 0, bottom: 0, left: 1, right: 1 },
+                borderColor: "cyan",
+                borderStyle: "round",
+            })
+        );
         console.log();
     },
 
     /**
-     * Print the user prompt prefix and wait for input
+     * Get the styled "You: " prompt string for readline
      */
-    userPrompt(): void {
-        process.stdout.write(`${colors.blue}You${colors.reset}: `);
+    userPromptString(): string {
+        return `${pc.blue(pc.bold("You"))} ${pc.dim("›")} `;
     },
 
     /**
@@ -33,9 +37,11 @@ export const console_out = {
      */
     claude(text: string): void {
         if (!claudeTurnStarted) {
-            console.log(`${colors.green}Claude${colors.reset}: ${text}`);
+            console.log();
+            console.log(`${pc.green(pc.bold("Claude"))} ${pc.dim("›")} ${text}`);
             claudeTurnStarted = true;
         } else {
+            console.log();
             console.log(text);
         }
     },
@@ -52,9 +58,30 @@ export const console_out = {
     },
 
     /**
-     * Print an error message
+     * Print an error message with symbol
      */
     error(message: string): void {
-        console.error(`Error: ${message}`);
+        console.error(`${logSymbols.error} ${pc.red(pc.bold("Error"))}: ${message}`);
+    },
+
+    /**
+     * Print a success message with symbol
+     */
+    success(message: string): void {
+        console.log(`${logSymbols.success} ${pc.green(message)}`);
+    },
+
+    /**
+     * Print a warning message with symbol
+     */
+    warn(message: string): void {
+        console.warn(`${logSymbols.warning} ${pc.yellow(message)}`);
+    },
+
+    /**
+     * Print an info message with symbol
+     */
+    info(message: string): void {
+        console.log(`${logSymbols.info} ${pc.cyan(message)}`);
     },
 };

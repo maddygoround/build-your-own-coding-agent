@@ -89,7 +89,7 @@ class Agent {
         while (true) {
             let userInput: string;
             try {
-                userInput = await this.rl.question("\x1b[94mYou\x1b[0m: ");
+                userInput = await this.rl.question(console_out.userPromptString());
             } catch {
                 if (this.verbose) {
                     logger.debug("User input ended, breaking from chat loop");
