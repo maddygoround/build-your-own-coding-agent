@@ -26,17 +26,23 @@ By this stage, the shared `logger.ts` is fully integrated. Task-specific agents 
 ### Flow Diagram
 ```mermaid
 graph TD
-    User([User]) -- "Invoke Script" --> Script[list_files.ts]
+    User([User]) -- "Prompt" --> Script[list_files.ts]
     Script -- "Define Schema" --> Zod[Zod Schema]
     Zod -- "Generate" --> API_Schema[JSON Schema]
-    Script -- "Schema + Prompt" --> API[Anthropic API]
-    API -- "Message" --> Script
-    Script -- "Execute Logic" --> FS[File System]
-    Script -- "Response" --> User
-    
+    Script -- "Initialize" --> Agent[Agent Instance]
+    Agent -- "Request (Schema + History)" --> API[Anthropic API]
+    API -- "Message/Tool Use" --> Agent
+    Agent -- "Dispatch Tool" --> Tool[ListFiles Tool]
+    Tool -- "Execute" --> FS[File System]
+    Tool -- "Result" --> Agent
+    Agent -- "Tool Result" --> API
+    Agent -- "History.push" --> History[(Message History)]
+    Agent -- "Response" --> User
+
     subgraph Logging Layer
-        Script -- "debug: Tool Input" --> Logger["Shared Logger (Pino)"]
-        Script -- "info: Final Result" --> Logger
+        Script -- "debug: Init" --> Logger["Shared Logger (Pino)"]
+        Agent -- "debug: Tool Dispatch" --> Logger
+        Tool -- "debug: Execution" --> Logger
     end
 
 ```

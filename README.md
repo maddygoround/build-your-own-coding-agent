@@ -48,13 +48,18 @@ graph TD
 ### Chapter 3: Task-Specific Agents
 ```mermaid
 graph TD
-    User([User]) -- "Invoke" --> Script[list_files.ts]
-    Script -- "Zod Schema" --> API[Anthropic API]
-    API -- "Tool Use" --> Script
-    Script -- "Execute" --> FS[File System]
-    
+    User([User]) -- "Prompt" --> Script[list_files.ts]
+    Script -- "Initialize" --> Agent[Agent Instance]
+    Agent -- "Request (Schema + History)" --> API[Anthropic API]
+    API -- "Message/Tool Use" --> Agent
+    Agent -- "Dispatch Tool" --> Tool[ListFiles Tool]
+    Tool -- "Execute" --> FS[File System]
+    Tool -- "Result" --> Agent
+    Agent -- "Tool Result" --> API
+    Agent -- "Response" --> User
+
     subgraph Logging Layer
-        Script -- "debug: Internal State" --> Logger["Shared Logger (Pino)"]
+        Agent -- "debug: Tool Dispatch" --> Logger["Shared Logger (Pino)"]
     end
 ```
 
@@ -64,10 +69,14 @@ graph TD
     User([User]) -- "Prompt" --> Runner[index.ts]
     Runner -- "Register" --> Tools[Tool Set]
     Runner -- "Initialize" --> Agent[Agent Instance]
+    Agent -- "Request (Tools + History)" --> API[Anthropic API]
+    API -- "Message/Tool Use" --> Agent
     Agent -- "Dispatch" --> Tools
-    Tools -- "Action" --> FS[File System]
+    Tools -- "Execute" --> FS[File System]
+    Tools -- "Result" --> Agent
+    Agent -- "Tool Result" --> API
     Agent -- "Response" --> User
-    
+
     subgraph Logging Layer
         Agent -- "Trace Dispatch" --> Logger["Shared Logger (Pino)"]
         Tools -- "Trace Result" --> Logger

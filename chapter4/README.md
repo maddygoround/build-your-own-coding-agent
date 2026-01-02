@@ -40,12 +40,14 @@ graph TD
     Runner -- "Register" --> Tools[Tool Set]
     Runner -- "Initialize" --> Agent[Agent Instance]
     Agent -- "Request (Tools + History)" --> API[Anthropic API]
-    API -- "Message/Tool Call" --> Agent
+    API -- "Message/Tool Use" --> Agent
     Agent -- "Dispatch" --> Tools
+    Tools -- "Execute" --> FS[File System]
     Tools -- "Result" --> Agent
+    Agent -- "Tool Result" --> API
     Agent -- "History.push" --> History[(Message History)]
     Agent -- "Response" --> User
-    
+
     subgraph Logging Layer
         Runner -- "Init Log" --> Logger["Shared Logger (Pino)"]
         Agent -- "Trace Dispatch" --> Logger
