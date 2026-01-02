@@ -30,13 +30,14 @@ graph TD
     Runner -- "Instantiate" --> Agent[Agent Instance]
     Agent -- "Request" --> API[Anthropic API]
     API -- "Message" --> Agent
-    Agent -- "History.push" --> History[(Message History)]
+    Agent -- "History.push" --> History["(Message History)"]
     Agent -- "Response" --> User
     
     subgraph Logging Layer
-        Runner -- "Init Log" --> Logger[Shared Logger (Pino)]
+        Runner -- "Init Log" --> Logger["Shared Logger (Pino)"]
         Agent -- "Trace State" --> Logger
     end
+
 ```
 
 ## How to Run

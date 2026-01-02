@@ -35,9 +35,10 @@ graph TD
     Script -- "Response" --> User
     
     subgraph Logging Layer
-        Script -- "debug: Tool Input" --> Logger[Shared Logger (Pino)]
+        Script -- "debug: Tool Input" --> Logger["Shared Logger (Pino)"]
         Script -- "info: Final Result" --> Logger
     end
+
 ```
 
 

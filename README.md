@@ -26,7 +26,7 @@ graph TD
     Agent -- "Response" --> User
     
     subgraph Logging Layer
-        Agent -- "Trace Event" --> Logger[Shared Logger (Pino)]
+        Agent -- "Trace Event" --> Logger["Shared Logger (Pino)"]
     end
 ```
 
@@ -40,7 +40,7 @@ graph TD
     Agent -- "Response" --> User
     
     subgraph Logging Layer
-        Runner -- "Init Log" --> Logger[Shared Logger (Pino)]
+        Runner -- "Init Log" --> Logger["Shared Logger (Pino)"]
         Agent -- "Trace State" --> Logger
     end
 ```
@@ -54,7 +54,7 @@ graph TD
     Script -- "Execute" --> FS[File System]
     
     subgraph Logging Layer
-        Script -- "debug: Internal State" --> Logger[Shared Logger (Pino)]
+        Script -- "debug: Internal State" --> Logger["Shared Logger (Pino)"]
     end
 ```
 
@@ -69,7 +69,7 @@ graph TD
     Agent -- "Response" --> User
     
     subgraph Logging Layer
-        Agent -- "Trace Dispatch" --> Logger[Shared Logger (Pino)]
+        Agent -- "Trace Dispatch" --> Logger["Shared Logger (Pino)"]
         Tools -- "Trace Result" --> Logger
     end
 ```

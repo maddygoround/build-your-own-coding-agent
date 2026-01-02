@@ -47,10 +47,11 @@ graph TD
     Agent -- "Response" --> User
     
     subgraph Logging Layer
-        Runner -- "Init Log" --> Logger[Shared Logger (Pino)]
+        Runner -- "Init Log" --> Logger["Shared Logger (Pino)"]
         Agent -- "Trace Dispatch" --> Logger
         Tools -- "Trace Execution" --> Logger
     end
+
 ```
 
 

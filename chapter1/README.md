@@ -35,12 +35,13 @@ graph TD
     Agent -- "Request" --> API[Anthropic API]
     API -- "Message" --> Agent
     Agent -- "Response" --> User
-    Agent -- "History.push" --> History[(Message History)]
+    Agent -- "History.push" --> History["(Message History)"]
     History -- "Context" --> Agent
     
     subgraph Logging Layer
-        Agent -- "Log Event" --> Logger[Shared Logger (Pino)]
+        Agent -- "Log Event" --> Logger["Shared Logger (Pino)"]
     end
+
 ```
 
 ## How to Run
