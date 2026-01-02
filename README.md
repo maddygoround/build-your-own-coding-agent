@@ -17,64 +17,82 @@ The project is structured into chapters, each representing a distinct iteration 
 
 The following illustrations track the development of the framework's architecture, now fully integrated with structured logging.
 
-### Chapter 1: The Monolithic Loop
+### Chapter 1: Simple Chat Loop
 ```mermaid
-graph TD
-    User([User]) -- "Prompt" --> Agent[Agent Script]
-    Agent -- "Request" --> API[Anthropic API]
-    API -- "Response" --> Agent
-    Agent -- "Output" --> User
-    
-    Agent -- "Log" --> Logger["Pino Logger"]
+graph TB
+    A[Start Chat] --> B[Get User Input]
+    B --> C{Empty?}
+    C -->|Yes| B
+    C -->|No| D[Add to History]
+    D --> E[Send to Claude]
+    E --> F[Get Response]
+    F --> G[Display Text]
+    G --> H[Add to History]
+    H --> B
 ```
 
-### Chapter 2: The Tool Loop
+### Chapter 2: Single Tool Loop
 ```mermaid
-graph TD
-    User([User]) -- "Prompt" --> Agent[Agent Instance]
-    Agent -- "Request" --> API[Anthropic API]
-    API -- "Tool Use" --> Agent
-    Agent -- "Execute" --> Tool[Single Tool]
-    Tool -- "Result" --> Agent
-    Agent -- "Tool Result" --> API
-    Agent -- "Final Answer" --> User
-
-    Agent -- "Log" --> Logger["Pino Logger"]
+graph TB
+    A[Start Chat] --> B[Get User Input]
+    B --> C{Empty?}
+    C -->|Yes| B
+    C -->|No| D[Add to History]
+    D --> E[Send to Claude]
+    E --> F[Get Response]
+    F --> G{Tool Use?}
+    G -->|No| H[Display Text]
+    G -->|Yes| I[Execute Tool]
+    I --> J[Collect Result]
+    J --> K[Send Result to Claude]
+    K --> F
+    H --> L[Add to History]
+    L --> B
 ```
 
 ### Chapter 3: Multiple Tools
 ```mermaid
-graph TD
-    User([User]) -- "Prompt" --> Agent[Agent Instance]
-    Agent -- "Request" --> API[Anthropic API]
-    API -- "Tool Use" --> Agent
-    Agent -- "Dispatch" --> Tools{Tools}
-    Tools -- "read_file" --> Tool1[ReadFile]
-    Tools -- "list_files" --> Tool2[ListFiles]
-    Tool1 -- "Result" --> Agent
-    Tool2 -- "Result" --> Agent
-    Agent -- "Tool Result" --> API
-    Agent -- "Final Answer" --> User
-
-    Agent -- "Log" --> Logger["Pino Logger"]
+graph TB
+    A[Start Chat] --> B[Get User Input]
+    B --> C{Empty?}
+    C -->|Yes| B
+    C -->|No| D[Add to History]
+    D --> E[Send to Claude]
+    E --> F[Get Response]
+    F --> G{Tool Use?}
+    G -->|No| H[Display Text]
+    G -->|Yes| I{Which Tool?}
+    I -->|read_file| J[Execute ReadFile]
+    I -->|list_files| K[Execute ListFiles]
+    J --> L[Collect Result]
+    K --> L
+    L --> M[Send Result to Claude]
+    M --> F
+    H --> N[Add to History]
+    N --> B
 ```
 
 ### Chapter 4: The Framework
 ```mermaid
-graph TD
-    User([User]) -- "Prompt" --> Runner[index.ts]
-    Runner -- "Register" --> Tools[Tool Set]
-    Runner -- "Init" --> Agent[Agent]
-    Agent -- "Loop" --> API[Anthropic API]
-    API -- "Tool call" --> Agent
-    Agent -- "Execute" --> Tools
-    Tools -- "Result" --> Agent
-    Agent -- "Final Answer" --> User
-
-    subgraph Logging Layer
-        Agent -- "Trace" --> Logger["Pino Logger"]
-        Tools -- "Log" --> Logger
-    end
+graph TB
+    A[index.ts] --> B[Register Tools]
+    B --> C[Initialize Agent]
+    C --> D[Start Chat]
+    D --> E[Get User Input]
+    E --> F{Empty?}
+    F -->|Yes| E
+    F -->|No| G[Add to History]
+    G --> H[Send to Claude]
+    H --> I[Get Response]
+    I --> J{Tool Use?}
+    J -->|No| K[Display Text]
+    J -->|Yes| L[Find Tool by Name]
+    L --> M[Execute Tool]
+    M --> N[Collect Result]
+    N --> O[Send Result to Claude]
+    O --> I
+    K --> P[Add to History]
+    P --> E
 ```
 
 ## Architecture & Core Patterns

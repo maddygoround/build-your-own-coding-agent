@@ -35,20 +35,25 @@ To add a new tool to this framework:
 
 ### Flow Diagram
 ```mermaid
-graph TD
-    User([User]) -- "Prompt" --> Runner[index.ts]
-    Runner -- "Register" --> Tools[Tool Set]
-    Runner -- "Init" --> Agent[Agent]
-    Agent -- "Loop" --> API[Anthropic API]
-    API -- "Tool call" --> Agent
-    Agent -- "Execute" --> Tools
-    Tools -- "Result" --> Agent
-    Agent -- "Final Answer" --> User
-
-    subgraph Logging Layer
-        Agent -- "Trace" --> Logger["Pino Logger"]
-        Tools -- "Log" --> Logger
-    end
+graph TB
+    A[index.ts] --> B[Register Tools]
+    B --> C[Initialize Agent]
+    C --> D[Start Chat]
+    D --> E[Get User Input]
+    E --> F{Empty?}
+    F -->|Yes| E
+    F -->|No| G[Add to History]
+    G --> H[Send to Claude]
+    H --> I[Get Response]
+    I --> J{Tool Use?}
+    J -->|No| K[Display Text]
+    J -->|Yes| L[Find Tool by Name]
+    L --> M[Execute Tool]
+    M --> N[Collect Result]
+    N --> O[Send Result to Claude]
+    O --> I
+    K --> P[Add to History]
+    P --> E
 ```
 
 

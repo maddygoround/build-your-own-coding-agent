@@ -30,13 +30,16 @@ We use a shared `logger.ts` utility based on `pino`. This allows us to separate 
 
 ### Flow Diagram
 ```mermaid
-graph TD
-    User([User]) -- "Prompt" --> Agent[Agent Script]
-    Agent -- "Request" --> API[Anthropic API]
-    API -- "Response" --> Agent
-    Agent -- "Output" --> User
-    
-    Agent -- "Log" --> Logger["Pino Logger"]
+graph TB
+    A[Start Chat] --> B[Get User Input]
+    B --> C{Empty?}
+    C -->|Yes| B
+    C -->|No| D[Add to History]
+    D --> E[Send to Claude]
+    E --> F[Get Response]
+    F --> G[Display Text]
+    G --> H[Add to History]
+    H --> B
 ```
 
 ## How to Run

@@ -29,19 +29,24 @@ Both tools use the shared `logger.ts` for consistent logging across the framewor
 
 ### Flow Diagram
 ```mermaid
-graph TD
-    User([User]) -- "Prompt" --> Agent[Agent Instance]
-    Agent -- "Request" --> API[Anthropic API]
-    API -- "Tool Use" --> Agent
-    Agent -- "Dispatch" --> Tools{Tools}
-    Tools -- "read_file" --> Tool1[ReadFile]
-    Tools -- "list_files" --> Tool2[ListFiles]
-    Tool1 -- "Result" --> Agent
-    Tool2 -- "Result" --> Agent
-    Agent -- "Tool Result" --> API
-    Agent -- "Final Answer" --> User
-
-    Agent -- "Log" --> Logger["Pino Logger"]
+graph TB
+    A[Start Chat] --> B[Get User Input]
+    B --> C{Empty?}
+    C -->|Yes| B
+    C -->|No| D[Add to History]
+    D --> E[Send to Claude]
+    E --> F[Get Response]
+    F --> G{Tool Use?}
+    G -->|No| H[Display Text]
+    G -->|Yes| I{Which Tool?}
+    I -->|read_file| J[Execute ReadFile]
+    I -->|list_files| K[Execute ListFiles]
+    J --> L[Collect Result]
+    K --> L
+    L --> M[Send Result to Claude]
+    M --> F
+    H --> N[Add to History]
+    N --> B
 ```
 
 

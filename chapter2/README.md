@@ -29,16 +29,21 @@ When the API returns a `tool_use` block:
 
 ### Flow Diagram
 ```mermaid
-graph TD
-    User([User]) -- "Prompt" --> Agent[Agent Instance]
-    Agent -- "Request" --> API[Anthropic API]
-    API -- "Tool Use" --> Agent
-    Agent -- "Execute" --> Tool[Single Tool]
-    Tool -- "Result" --> Agent
-    Agent -- "Tool Result" --> API
-    Agent -- "Final Answer" --> User
-
-    Agent -- "Log" --> Logger["Pino Logger"]
+graph TB
+    A[Start Chat] --> B[Get User Input]
+    B --> C{Empty?}
+    C -->|Yes| B
+    C -->|No| D[Add to History]
+    D --> E[Send to Claude]
+    E --> F[Get Response]
+    F --> G{Tool Use?}
+    G -->|No| H[Display Text]
+    G -->|Yes| I[Execute Tool]
+    I --> J[Collect Result]
+    J --> K[Send Result to Claude]
+    K --> F
+    H --> L[Add to History]
+    L --> B
 ```
 
 ## How to Run
