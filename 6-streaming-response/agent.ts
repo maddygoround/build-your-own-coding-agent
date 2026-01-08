@@ -65,17 +65,22 @@ export class Agent {
       try {
         let stream = await this.runInference(conversation);
 
-        stream.on("text", (text) => {
-          console_out.claudeStream(text);
-        });
-
         stream.on("streamEvent", (event) => {
-          if (event.type === "content_block_start") {
-            switch (event.content_block.type) {
-              case "tool_use":
-                console_out.toolStart(event.content_block.name);
-                break;
-            }
+          switch (event.type) {
+            case "content_block_start":
+              switch (event.content_block.type) {
+                case "tool_use":
+                  console_out.toolStart(event.content_block.name);
+                  break;
+              }
+              break;
+            case "content_block_delta":
+              switch (event.delta.type) {
+                case "text_delta":
+                  console_out.claudeStream(event.delta.text);
+                  break;
+              }
+              break;
           }
         });
 
@@ -160,17 +165,22 @@ export class Agent {
           conversation.push({ role: "user", content: toolsResults });
           stream = await this.runInference(conversation);
 
-          stream.on("text", (text) => {
-            console_out.claudeStream(text);
-          });
-
           stream.on("streamEvent", (event) => {
-            if (event.type === "content_block_start") {
-              switch (event.content_block.type) {
-                case "tool_use":
-                  console_out.toolStart(event.content_block.name);
-                  break;
-              }
+            switch (event.type) {
+              case "content_block_start":
+                switch (event.content_block.type) {
+                  case "tool_use":
+                    console_out.toolStart(event.content_block.name);
+                    break;
+                }
+                break;
+              case "content_block_delta":
+                switch (event.delta.type) {
+                  case "text_delta":
+                    console_out.claudeStream(event.delta.text);
+                    break;
+                }
+                break;
             }
           });
 
