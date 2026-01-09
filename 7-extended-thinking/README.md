@@ -145,9 +145,6 @@ bun run 7-extended-thinking/index.ts --verbose
 Here are some directions future chapters may explore:
 
 - **Persistent Context** — save conversation history across sessions using SQLite or JSON
-- **Parallel Tool Execution** — run independent tools concurrently with `Promise.all()`
+- **Parallel Tool Execution** — run independent tools concurrently
 - **Web Search** — integrate a search API for real-time information retrieval
-- **Code Sandbox** — execute code safely in an isolated environment
-- **MCP Integration** — connect to external tools via the Model Context Protocol
 - **Image Understanding** — process screenshots and diagrams with vision capabilities
-- **Multi-Agent Coordination** — orchestrate multiple specialized agents working together
