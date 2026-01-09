@@ -309,8 +309,8 @@ export class Agent {
 
     try {
       const params: any = {
-        model: "claude-3-5-haiku-latest",
-        max_tokens: 4096,
+        model: "claude-3-7-sonnet-latest",
+        max_tokens: 2048,
         messages: conversation,
         tools: anthropicTools,
       };
@@ -319,7 +319,7 @@ export class Agent {
       if (this.enableThinking) {
         params.thinking = {
           type: "enabled",
-          budget_tokens: 5000,
+          budget_tokens: 1024,
         };
       }
 
