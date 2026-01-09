@@ -309,7 +309,7 @@ code-agent-ts/
 All chapters support `--verbose` for debug logging:
 
 ```bash
-bun run chapter4/index.ts --verbose
+bun run 4-agent-tool-orchestration/index.ts --verbose
 ```
 
 This shows:
@@ -322,11 +322,11 @@ This shows:
 
 Once you complete Chapter 4, adding new tools is simple:
 
-1. **Create the file**: `chapter4/tools/my_tool.ts`
+1. **Create the file**: `4-agent-tool-orchestration/tools/my_tool.ts`
 2. **Define the schema and executor**
 3. **Register in `index.ts`**
 
-See [Chapter 4 README](./chapter4/README.md) for detailed instructions.
+See [Chapter 4 README](./4-agent-tool-orchestration/README.md) for detailed instructions.
 
 ## Troubleshooting
 
@@ -336,7 +336,7 @@ See [Chapter 4 README](./chapter4/README.md) for detailed instructions.
 
 **Bun errors?**
 - Update Bun: `bun upgrade`
-- Or use Node.js: `npx tsx chapter4/index.ts`
+- Or use Node.js: `npx tsx 4-agent-tool-orchestration/index.ts`
 
 **Tool errors?**
 - Use `--verbose` for detailed logs

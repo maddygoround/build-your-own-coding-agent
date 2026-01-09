@@ -111,6 +111,7 @@ export class Agent {
                   if (this.verbose) {
                     logger.debug({ toolToUse }, "Using tool");
                   }
+                  console_out.toolStart(toolToUse, block.input);
                   try {
                     toolResult = await tool.Execute(block.input);
                     console_out.toolEnd(toolToUse, true);
@@ -170,7 +171,7 @@ export class Agent {
               case "content_block_start":
                 switch (event.content_block.type) {
                   case "tool_use":
-                    console_out.toolStart(event.content_block.name);
+                    // Tool start is displayed during execution to show parameters
                     break;
                 }
                 break;

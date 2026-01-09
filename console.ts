@@ -62,18 +62,33 @@ export const console_out = {
     /**
      * Print tool call start indicator
      */
-    toolStart(toolName: string): void {
-        console.log(`\n${pc.yellow("⚡")} ${pc.dim("Calling")} ${pc.yellow(pc.bold(toolName))}`);
+    toolStart(toolName: string, input?: any): void {
+        const width = (process.stdout.columns || 80) - 5;
+        const prefix = `⚡ Calling ${toolName} `;
+        const line = pc.dim("─".repeat(Math.max(0, width - prefix.length)));
+        
+        console.log(`\n${pc.yellow("⚡")} ${pc.bold("Calling")} ${pc.yellow(pc.bold(toolName))} ${line}`);
+        
+        if (input && Object.keys(input).length > 0) {
+            for (const [key, value] of Object.entries(input)) {
+                console.log(`   ${pc.dim(key)}: ${pc.cyan(String(value))}`);
+            }
+            console.log();
+        }
     },
 
     /**
      * Print tool execution result indicator
      */
     toolEnd(toolName: string, success: boolean): void {
+        const width = (process.stdout.columns || 80) - 5;
+        const prefix = `✓ Finished ${toolName} `;
+        const line = pc.dim("─".repeat(Math.max(0, width - prefix.length)));
+        
         if (success) {
-            console.log(`${pc.green("✓")} ${pc.dim("Finished")} ${pc.green(toolName)}`);
+            console.log(`${pc.green("✓")} ${pc.bold("Finished")} ${pc.green(pc.bold(toolName))} ${line}\n`);
         } else {
-            console.log(`${pc.red("✗")} ${pc.dim("Failed")} ${pc.red(toolName)}`);
+            console.log(`${pc.red("✗")} ${pc.bold("Failed")} ${pc.red(pc.bold(toolName))} ${line}\n`);
         }
     },
 

@@ -86,11 +86,14 @@ export class Agent {
                                     if (this.verbose) {
                                         logger.debug({ toolToUse }, "Using tool");
                                     }
+                                    console_out.toolStart(toolToUse, block.input);
                                     try {
                                         toolResult = await tool.Execute(block.input);
+                                        console_out.toolEnd(toolToUse, true);
                                     } catch (err) {
                                         toolErrorMsg = err instanceof Error ? err.message : String(err);
                                         logger.error({ toolToUse, toolErrorMsg }, "Tool execution failed");
+                                        console_out.toolEnd(toolToUse, false);
                                     }
 
                                     if (this.verbose && !toolErrorMsg) {

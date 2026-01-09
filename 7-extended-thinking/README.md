@@ -61,7 +61,7 @@ The streaming API provides specialized events for thinking content:
 ## File Structure
 
 ```
-7-thinking-tokens/
+7-extended-thinking/
 ├── index.ts              # Entry point
 ├── agent.ts              # Agent with thinking support
 ├── types.ts              # Shared interfaces
@@ -84,6 +84,9 @@ The streaming API provides specialized events for thinking content:
   - Closes thinking blocks on `content_block_stop`
 
 ### console.ts (shared)
+Updated tool status visualization to a structured "boxed" format:
+- `toolStart(name, input)` — displays a header with `⚡ Calling [name]` and a horizontal separator. It also prints indented input parameters (e.g., file paths or commands).
+- `toolEnd(name, success)` — displays a footer with `✓ Finished [name]` (or `✗ Failed`) and a horizontal separator to clearly bound the tool's output.
 Added three new methods for thinking visualization:
 - `thinkingStart()` — displays 💭 header
 - `thinkingStream(delta)` — prints dimmed cyan thinking text
@@ -127,41 +130,24 @@ graph TB
 
 ```bash
 # Standard run
-bun run 7-thinking-tokens/index.ts
+bun run 7-extended-thinking/index.ts
 
 # With debug logging
-bun run 7-thinking-tokens/index.ts --verbose
+bun run 7-extended-thinking/index.ts --verbose
 ```
 
 ## Example Session
 
-```
-You › Find all TypeScript files with potential bugs
+![Example Session](demo.gif)
 
-💭 Thinking...
-I need to search for TypeScript files first, then examine them for common bug patterns like unhandled promises, type assertions, or missing error handling.
+## What's Next
 
-⚡ Calling grep
-✓ Finished grep
+Here are some directions future chapters may explore:
 
-Claude › I found 12 TypeScript files. Let me analyze them for potential issues...
-
-💭 Thinking...
-Looking at the grep results, I see several files with 'any' types and unhandled async operations. I should prioritize checking error handling in agent.ts and the tool implementations.
-
-⚡ Calling read_file
-✓ Finished read_file
-
-Claude › I've identified 3 potential issues in your code:
-1. agent.ts:103 - Unhandled promise rejection
-2. tools/bash_tool.ts:45 - Using 'any' type
-3. tools/edit_tool.ts:78 - Missing error boundary
-```
-
-## What's Next?
-
-With thinking capabilities in place, future enhancements could include:
-- **Thinking summaries** — condensed view of long reasoning chains
-- **Thinking history** — save and review past reasoning
-- **Interactive thinking** — pause and query Claude's reasoning mid-stream
-- **Thinking analytics** — measure reasoning complexity and depth
+- **Persistent Context** — save conversation history across sessions using SQLite or JSON
+- **Parallel Tool Execution** — run independent tools concurrently with `Promise.all()`
+- **Web Search** — integrate a search API for real-time information retrieval
+- **Code Sandbox** — execute code safely in an isolated environment
+- **MCP Integration** — connect to external tools via the Model Context Protocol
+- **Image Understanding** — process screenshots and diagrams with vision capabilities
+- **Multi-Agent Coordination** — orchestrate multiple specialized agents working together
